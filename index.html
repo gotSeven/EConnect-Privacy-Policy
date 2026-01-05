@@ -19,8 +19,19 @@
       // Read lang param from query string (e.g. ?lang=zh)
       const params = new URLSearchParams(window.location.search);
       const lang = (params.get('lang') || 'en').toLowerCase();
+      const theme = (params.get('theme') || 'light').toLowerCase();
+
+      if (theme === 'dark') {
+        document.body.classList.add('dark');
+      }
+
       const supported = ['en', 'zh', 'fr', 'de', 'es', 'ja', 'it'];
-      const target = supported.includes(lang) ? `privacy_${lang}.html` : 'privacy_en.html';
+      let target = supported.includes(lang) ? `privacy_${lang}.html` : 'privacy_en.html';
+
+      if (theme !== 'light') {
+        target += `?theme=${theme}`;
+      }
+
       // Use replace to avoid polluting history
       window.location.replace(target);
     })();
